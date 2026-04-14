@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Configurator | Research & Budget</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PC Build Assistant</h1>
+            <p>Define your needs, discover your build.</p>
+        </header>
+
+        <main>
+            <section class="config-card">
+                <div class="input-group">
+                    <label for="use-case">Primary Use Case</label>
+                    <select id="use-case">
+                        <option value="office">Office / Research</option>
+                        <option value="gaming">Gaming / High Perf</option>
+                        <option value="creative">Content Creation</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="budget-range">Target Budget: $<span id="budget-val">800</span></label>
+                    <input type="range" id="budget-range" min="400" max="3000" step="100" value="800">
+                </div>
+
+                <button id="generate-btn">Analyze Components</button>
+            </section>
+
+            <section id="results" class="hidden">
+                <h2>Recommended Allocation</h2>
+                <div id="component-list"></div>
+                <div class="total-status">
+                    <p>Estimated Efficiency: <strong id="efficiency">High</strong></p>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
