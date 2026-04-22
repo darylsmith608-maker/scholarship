@@ -51,3 +51,24 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = 'https://your-project-id.supabase.co'
 const supabaseKey = https://fzrbnyshfzseclbmmchj.supabase.co/rest/v1/
 const supabase = createClient(supabaseUrl, supabaseKey)
+async function getPosts() {
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+
+  if (error) {
+    console.error('Error fetching data:', error)
+  } else {
+    console.log('Your Data:', data)
+    // Map this data to your HTML/UI here
+  }
+}document.addEventListener('DOMContentLoaded', async () => {
+  const { data: posts } = await supabase.from('posts').select('*')
+  
+  const container = document.getElementById('api-content')
+  posts.forEach(post => {
+    const el = document.createElement('div')
+    el.innerHTML = `<h3>${post.title}</h3><p>${post.content}</p>`
+    container.appendChild(el)
+  })
+})
