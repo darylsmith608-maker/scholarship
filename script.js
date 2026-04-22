@@ -46,3 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsArea.scrollIntoView({ behavior: 'smooth' });
     }
 });
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = 'https://your-project-id.supabase.co'
+const supabaseKey = https://fzrbnyshfzseclbmmchj.supabase.co/rest/v1/
+const supabase = createClient(supabaseUrl, supabaseKey)
