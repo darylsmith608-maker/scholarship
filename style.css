@@ -7,8 +7,9 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, sans-serif;
-    background-color: var(--bg);
+    font-family: 'Arial, -apple-system, sans-serif;
+    background-color: white #f4f4f4;
+    text-align center,
     color: var(--text);
     line-height: 1.6;
     margin: 0;
