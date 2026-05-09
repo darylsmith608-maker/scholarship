@@ -1,18 +1,7 @@
-:root {
-    --primary: #2563eb;
-    --bg: #f8fafc;
-    --card: #ffffff;
-    --text: #1e293b;
-    --border: #e2e8f0;
-}
-
 body {
-    font-family: 'Arial, -apple-system, sans-serif;
-    background-color: white #f4f4f4;
-    text-align center,
-    color: var(--text);
-    line-height: 1.6;
-    margin: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
     display: flex;
     justify-content: center;
     padding: 2rem;
@@ -28,71 +17,62 @@ header {
     margin-bottom: 2rem;
 }
 
-.config-card {
-    background: var(--card);
+.card {
+    background: white;
     padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
 }
 
 .input-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
-label {
-    display: block;
-    font-weight: 400;
+.input-group label {
     margin-bottom: 0.5rem;
+    font-weight: bold;
 }
 
-select, input[type="range"] {
-    width: 100%;
+.input-group input, .input-group select {
     padding: 0.5rem;
-    border-radius: 6px;
-    border: 1px solid var(--border);
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 button {
-    width: 100%;
-    background-color: var(--primary);
-    color: white;
+    padding: 0.75rem 1.5rem;
     border: none;
-    padding: 1rem;
-    border-radius: 8px;
-    font-weight: bold;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
     cursor: pointer;
-    transition: opacity 0.2s;
+    font-weight: bold;
 }
 
 button:hover {
-    opacity: 0.9;
+    background-color: #0056b3;
 }
 
-#results {
-    margin-top: 2rem;
-    background: var(--card);
-    padding: 1.5rem;
-    border-radius: 12px;
-    border-left: 4px solid var(--primary);
+.secondary-btn {
+    background-color: #6c757d;
 }
 
-.hidden { display: none; }
-
-.component-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border);
+.danger-btn {
+    background-color: #dc3545;
+    margin-top: 1rem;
 }
-Body{
-    background-color- Green  #(0,255,0) RGB
-    H1 { text-decoration:underline;Color Blue, (0,0,255) RGB
-       }
-    </body 
-    
-<body>
-    <p id="font Pc Build Assistant" Pc Build Assistant </p> 
-     # font 1{ Font - family: Pc build Assistant;}
+
+.hidden {
+    display: none;
+}
+
+#auth-message {
+    margin-top: 1rem;
+    color: #d9534f;
+    font-size: 0.9rem;
+}
     
     
