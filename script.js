@@ -1,74 +1,78 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const budgetSlider = document.getElementById('budget-range');
-    const budgetVal = document.getElementById('budget-val');
-    const generateBtn = document.getElementById('generate-btn');
-    const resultsArea = document.getElementById('results');
-    const componentList = document.getElementById('component-list');
+// 1. Initialize Supabase
+const supabaseUrl = 'https://uckyzrjhnbcjzyxfrhdg.supabase.co/rest/v1/';
+const supabaseKey = 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u';
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Update budget display in real-time (UX: Immediate Feedback)
-    budgetSlider.addEventListener('input', (e) => {
-        budgetVal.textContent = e.target.value;
+// DOM Elements
+const authSection = document.getElementById('auth-section');
+const configSection = document.getElementById('config-section');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+const authMessage = document.getElementById('auth-message');
+const budgetRange = document.getElementById('budget-range');
+const budgetVal = document.getElementById('budget-val');
+
+// Update Budget Display
+budgetRange.addEventListener('input', (e) => {
+    budgetVal.textContent = e.target.value;
+});
+
+// 2. Register Function
+document.getElementById('register-btn').addEventListener('click', async () => {
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    
+    const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password,
     });
 
-    generateBtn.addEventListener('click', () => {
-        const budget = parseInt(budgetSlider.value);
-        const useCase = document.getElementById('use-case').value;
-        
-        // Define budget allocation ratios based on research
-        let allocation = {
-            "CPU": 0.25,
-            "GPU": 0.35,
-            "RAM/Storage": 0.20,
-            "Case/PSU/Mobo": 0.20
-        };
-
-        // Adjust logic for office use (less GPU, more storage/CPU)
-        if (useCase === 'office') {
-            allocation.GPU = 0.10;
-            allocation.CPU = 0.40;
-            allocation["Case/PSU/Mobo"] = 0.30;
-            allocation["RAM/Storage"] = 0.20;
-        }
-
-        renderResults(budget, allocation);
-    });
-
-    function renderResults(total, ratios) {
-        componentList.innerHTML = '';
-        for (const [part, ratio] of Object.entries(ratios)) {
-            const price = (total * ratio).toFixed(2);
-            const item = document.createElement('div');
-            item.className = 'component-item';
-            item.innerHTML = `<span>${part}</span> <strong>$${price}</strong>`;
-            componentList.appendChild(item);
-        }
-        resultsArea.classList.remove('hidden');
-        resultsArea.scrollIntoView({ behavior: 'smooth' });
+    if (error) {
+        authMessage.textContent = error.message;
+    } else {
+        authMessage.textContent = "Registration successful! Please check your email to verify.";
+        authMessage.style.color = "green";
     }
 });
-import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = 'https://your-project-id.supabase.co'
-const supabaseKey = https://fzrbnyshfzseclbmmchj.supabase.co/rest/v1/
-const supabase = createClient(supabaseUrl, supabaseKey)
-async function getPosts() {
-  const { data, error } = await supabase
-    .from('posts')
-    .select('*')
+// 3. Login Function
+document.getElementById('login-btn').addEventListener('click', async () => {
+    const email = emailInput.value;
+    const password = passwordInput.value;
 
-  if (error) {
-    console.error('Error fetching data:', error)
-  } else {
-    console.log('Your Data:', data)
-    // Map this data to your HTML/UI here
-  }
-}document.addEventListener('DOMContentLoaded', async () => {
-  const { data: posts } = await supabase.from('posts').select('*')
-  
-  const container = document.getElementById('api-content')
-  posts.forEach(post => {
-    const el = document.createElement('div')
-    el.innerHTML = `<h3>${post.title}</h3><p>${post.content}</p>`
-    container.appendChild(el)
-  })
-})
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+    });
+
+    if (error) {
+        authMessage.textContent = error.message;
+    } else {
+        authMessage.textContent = "";
+        checkUser(); // Update UI
+    }
+});
+
+// 4. Logout Function
+document.getElementById('logout-btn').addEventListener('click', async () => {
+    await supabase.auth.signOut();
+    checkUser(); // Update UI
+});
+
+// 5. Check User Session & Update UI
+async function checkUser() {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (user) {
+        // User is logged in: Hide auth, show configurator
+        authSection.classList.add('hidden');
+        configSection.classList.remove('hidden');
+    } else {
+        // User is logged out: Show auth, hide configurator
+        authSection.classList.remove('hidden');
+        configSection.classList.add('hidden');
+    }
+}
+
+// Run on page load
+checkUser();
