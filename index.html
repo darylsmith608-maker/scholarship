@@ -3,18 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC Configurator | Research & Budget</title>
+    <title>PC Configurator & Subscriptions</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>PC Build Assistant</h1>
-            <p>Define your needs, discover your build.</p>
+            <p>Define your needs. <strong>Discover your build.</strong></p>
         </header>
 
         <main>
-            <section class="config-card">
+            <section id="auth-section" class="card">
+                <h2>Access Your Account</h2>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <div class="button-group">
+                    <button id="login-btn">Sign In</button>
+                    <button id="register-btn" class="secondary-btn">Register</button>
+                </div>
+                <p id="auth-message"></p>
+            </section>
+
+            <section id="config-section" class="card hidden">
+                <h2>Welcome back!</h2>
                 <div class="input-group">
                     <label for="use-case">Primary Use Case</label>
                     <select id="use-case">
@@ -23,68 +42,16 @@
                         <option value="creative">Content Creation</option>
                     </select>
                 </div>
-
                 <div class="input-group">
                     <label for="budget-range">Target Budget: $<span id="budget-val">800</span></label>
                     <input type="range" id="budget-range" min="400" max="3000" step="100" value="800">
                 </div>
-
                 <button id="generate-btn">Analyze Components</button>
-            </section>
-
-            <section id="results" class="hidden">
-                <h2>Recommended Allocation</h2>
-                <div id="component-list"></div>
-                <div class="total-status">
-                    <p>Estimated Efficiency: <strong id="efficiency">High</strong></p>
-                </div>
+                <button id="logout-btn" class="danger-btn">Log Out</button>
             </section>
         </main>
     </div>
     <script src="script.js"></script>
 </body>
-</html>
-<html> 
-    <head>
-        <title> Drop-down-menu</title>
-    </head>
-    <body>
-        <form>
-            <label for=s1>
-        </form>
-    </body>
-    </head>
-<html>
-    <head>
-        <title>Drop-Down Menu</title>
-    </head>
-    <body>
-        <form>
-            <!-- requires the user to enter a valid email-->
-            <label for = "Email">
-                Email:</label 
-                          <input type ="Email" id="Email"><br>
-        </form>
-    </body>
-    </head>
-</html>
-<html>
-    <label for="pass">
-        Password : </label> 
-    <input type ="password" id="pass"><br>
-    <!-- requires the user to enter a phone number-->
-    <label for= "tel">Telephone: </label> 
-    <input type= "tel" id= "tel"><br>
-</html>
-<Form>
-    <label for = "Name"> Name: </label>
-    <input type= "text" id = "name">
-    <br><br>
-    <input type = "button" value="send">
-</form>
-<body> 
-< h1> PC Build Assistant</h1> 
-<p> Define your needs <Strong> Discover your build </p> 
-<button> Sign IN </button> 
-</body>    
+</html>   
 
