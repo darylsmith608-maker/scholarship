@@ -1,4 +1,5 @@
 // 1.Initialize Supabase
+import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = 'https://uckyzrjhnbcjzyxfrhdg.supabase.co';
 const supabaseKey = 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
