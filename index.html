@@ -57,3 +57,15 @@
 <body>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </body>
+<script type="importmap">
+  {
+    "imports": {
+      "@supabase/supabase-js": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"
+    }
+  }
+</script>
+
+<script type="module">
+  import { createClient } from '@supabase/supabase-js'
+  // This will now work!
+</script>
