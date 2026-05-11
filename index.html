@@ -1,11 +1,10 @@
-<html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC Configurator & Subscriptions</title>
+    <title>PC Configurator | Research & Budget</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="container">
@@ -15,57 +14,62 @@
         </header>
 
         <main>
-            <section id="auth-section" class="card">
-                <h2>Access Your Account</h2>
-                <div class="input-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="Enter your email" required>
-                </div>
-                <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter your password" required>
-                </div>
-                <div class="button-group">
-                    <button id="login-btn">Sign In</button>
-                    <button id="register-btn" class="secondary-btn">Register</button>
-                </div>
-                <p id="auth-message"></p>
-            </section>
+            <form id="pc-form">
+                
+                <section class="config-card">
+                    <h2>Configuration</h2>
+                    <div class="input-group">
+                        <label for="use-case">Primary Use Case</label>
+                        <select id="use-case">
+                            <option value="office">Office / Research</option>
+                            <option value="gaming">Gaming / High Perf</option>
+                            <option value="creative">Content Creation</option>
+                        </select>
+                    </div>
 
-            <section id="config-section" class="card hidden">
-                <h2>Welcome back!</h2>
-                <div class="input-group">
-                    <label for="use-case">Primary Use Case</label>
-                    <select id="use-case">
-                        <option value="office">Office / Research</option>
-                        <option value="gaming">Gaming / High Perf</option>
-                        <option value="creative">Content Creation</option>
-                    </select>
+                    <div class="input-group">
+                        <label for="budget-range">Target Budget: $<span id="budget-val">800</span></label>
+                        <input type="range" id="budget-range" min="400" max="3000" step="100" value="800">
+                    </div>
+                </section>
+
+                <section class="user-details">
+                    <h2>Your Details</h2>
+                    <div class="input-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="tel">Telephone:</label>
+                        <input type="tel" id="tel">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="pass">Password:</label>
+                        <input type="password" id="pass" required>
+                    </div>
+                </section>
+
+                <button type="submit" id="generate-btn">Sign Up & Analyze</button>
+            </form>
+
+            <section id="results" class="hidden">
+                <h2>Recommended Allocation</h2>
+                <div id="component-list"></div>
+                <div class="total-status">
+                    <p>Estimated Efficiency: <strong id="efficiency">High</strong></p>
                 </div>
-                <div class="input-group">
-                    <label for="budget-range">Target Budget: $<span id="budget-val">800</span></label>
-                    <input type="range" id="budget-range" min="400" max="3000" step="100" value="800">
-                </div>
-                <button id="generate-btn">Analyze Components</button>
-                <button id="logout-btn" class="danger-btn">Log Out</button>
             </section>
         </main>
     </div>
-   <script type="module" src="script.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
 </body>
-</html>   
-<body>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</body>
-<script type="importmap">
-  {
-    "imports": {
-      "@supabase/supabase-js": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"
-    }
-  }
-</script>
-
-<script type="module">
-  import { createClient } from '@supabase/supabase-js'
-  // This will now work!
-</script>
+</html>
