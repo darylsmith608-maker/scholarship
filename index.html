@@ -11,17 +11,17 @@
     <div class="container">
         <header>
             <h1>PC Build Assistant</h1>
-            <p>Define your needs. <strong>Discover your build.</strong></p>
+            <p id="header-desc">Please login or sign up to discover your build.</p>
         </header>
 
         <main>
-            <div class="form-toggle">
-                <button id="show-signup" class="active">Sign Up</button>
-                <button id="show-login">Login</button>
-            </div>
+            <section id="auth-section">
+                <div class="form-toggle">
+                    <button id="show-login" class="active">Login</button>
+                    <button id="show-signup">Sign Up</button>
+                </div>
 
-            <form id="pc-form">
-                <section class="user-details">
+                <form id="auth-form">
                     <div class="input-group">
                         <label for="email">Email</label>
                         <input type="email" id="email" placeholder="email@example.com" required>
@@ -31,7 +31,7 @@
                         <input type="password" id="pass" placeholder="••••••••" required>
                     </div>
                     
-                    <div id="signup-fields">
+                    <div id="signup-fields" class="hidden">
                         <div class="input-group">
                             <label for="name">Full Name</label>
                             <input type="text" id="name" placeholder="John Doe">
@@ -41,27 +41,32 @@
                             <input type="tel" id="tel" placeholder="+1 (555) 000-0000">
                         </div>
                     </div>
-                </section>
 
-                <section class="config-card">
-                    <h2>Configuration</h2>
-                    <div class="input-group">
-                        <label for="use-case">Primary Use Case</label>
-                        <select id="use-case">
-                            <option value="office">Office / Research</option>
-                            <option value="gaming">Gaming / High Perf</option>
-                            <option value="creative">Content Creation</option>
-                        </select>
+                    <button type="submit" id="auth-submit-btn">Login</button>
+                </form>
+            </section>
+
+            <section id="config-section" class="hidden">
+                <form id="pc-form">
+                    <div class="config-card">
+                        <h2>Configuration</h2>
+                        <div class="input-group">
+                            <label for="use-case">Primary Use Case</label>
+                            <select id="use-case">
+                                <option value="office">Office / Research</option>
+                                <option value="gaming">Gaming / High Perf</option>
+                                <option value="creative">Content Creation</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="budget-range">Target Budget: $<span id="budget-val">800</span></label>
+                            <input type="range" id="budget-range" min="400" max="3000" step="100" value="800">
+                        </div>
                     </div>
-
-                    <div class="input-group">
-                        <label for="budget-range">Target Budget: $<span id="budget-val">800</span></label>
-                        <input type="range" id="budget-range" min="400" max="3000" step="100" value="800">
-                    </div>
-                </section>
-
-                <button type="submit" id="submit-btn">Get Started</button>
-            </form>
+                    <button type="submit" id="generate-btn">Analyze Components</button>
+                </form>
+            </section>
 
             <section id="results" class="hidden">
                 <h2>Recommended Allocation</h2>
