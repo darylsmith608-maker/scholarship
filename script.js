@@ -1,62 +1,72 @@
 // Initialize Supabase
-const supabaseUrl = 'https://uckyzrjhnbcjzyxfrhdg.supabase.co;
-const supabaseKey = 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u'
+const supabaseUrl = 'https://uckyzrjhnbcjzyxfrhdg.supabase.co';
+const supabaseKey = 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
+// Selectors
+const authSection = document.getElementById('auth-section');
+const configSection = document.getElementById('config-section');
 const signupFields = document.getElementById('signup-fields');
-const submitBtn = document.getElementById('submit-btn');
-let isSignUp = true;
+const authSubmitBtn = document.getElementById('auth-submit-btn');
+const showLogin = document.getElementById('show-login');
+const showSignup = document.getElementById('show-signup');
+const headerDesc = document.getElementById('header-desc');
 
-// Toggle between Sign Up and Login
-document.getElementById('show-login').addEventListener('click', () => {
-    isSignUp = false;
+let isSignUpMode = false;
+
+// 1. Toggle Login/Signup
+showLogin.addEventListener('click', () => {
+    isSignUpMode = false;
     signupFields.classList.add('hidden');
-    submitBtn.textContent = "Login";
-    document.getElementById('show-login').classList.add('active');
-    document.getElementById('show-signup').classList.remove('active');
+    authSubmitBtn.textContent = "Login";
+    showLogin.classList.add('active');
+    showSignup.classList.remove('active');
 });
 
-document.getElementById('show-signup').addEventListener('click', () => {
-    isSignUp = true;
+showSignup.addEventListener('click', () => {
+    isSignUpMode = true;
     signupFields.classList.remove('hidden');
-    submitBtn.textContent = "Sign Up & Analyze";
-    document.getElementById('show-signup').classList.add('active');
-    document.getElementById('show-login').classList.remove('active');
+    authSubmitBtn.textContent = "Sign Up";
+    showSignup.classList.add('active');
+    showLogin.classList.remove('active');
 });
 
-// Update Budget Label
+// 2. Handle Authentication
+document.getElementById('auth-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('pass').value;
+
+    let response;
+    if (isSignUpMode) {
+        response = await supabase.auth.signUp({
+            email, password,
+            options: { data: { 
+                full_name: document.getElementById('name').value,
+                phone: document.getElementById('tel').value 
+            }}
+        });
+    } else {
+        response = await supabase.auth.signInWithPassword({ email, password });
+    }
+
+    if (response.error) {
+        alert(response.error.message);
+    } else {
+        // SUCCESS: Show Configurator
+        authSection.classList.add('hidden');
+        configSection.classList.remove('hidden');
+        headerDesc.textContent = "Define your needs. Discover your build.";
+    }
+});
+
+// 3. PC Form Logic
 document.getElementById('budget-range').addEventListener('input', (e) => {
     document.getElementById('budget-val').textContent = e.target.value;
 });
 
-// Handle Form Submission
-document.getElementById('pc-form').addEventListener('submit', async (e) => {
+document.getElementById('pc-form').addEventListener('submit', (e) => {
     e.preventDefault();
-    
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('pass').value;
-
-    if (isSignUp) {
-        // Sign Up Logic
-        const { data, error } = await supabase.auth.signUp({
-            email: email,
-            password: password,
-            options: {
-                data: {
-                    full_name: document.getElementById('name').value,
-                    phone: document.getElementById('tel').value
-                }
-            }
-        });
-        if (error) alert(error.message);
-        else alert("Check your email for confirmation!");
-    } else {
-        // Login Logic
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email: email,
-            password: password,
-        });
-        if (error) alert(error.message);
-        else alert("Welcome back!");
-    }
+    document.getElementById('results').classList.remove('hidden');
+    // Your component analysis logic goes here
 });
