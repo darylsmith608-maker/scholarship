@@ -1,79 +1,62 @@
-// 1.Initialize Supabase
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
-const supabaseUrl = 'https://uckyzrjhnbcjzyxfrhdg.supabase.co';
-const supabaseKey = 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u';
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+// Initialize Supabase
+const supabaseUrl = 'https://uckyzrjhnbcjzyxfrhdg.supabase.co;
+const supabaseKey = 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u'
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-// DOM Elements
-const authSection = document.getElementById('auth-section');
-const configSection = document.getElementById('config-section');
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
-const authMessage = document.getElementById('auth-message');
-const budgetRange = document.getElementById('budget-range');
-const budgetVal = document.getElementById('budget-val');
+const signupFields = document.getElementById('signup-fields');
+const submitBtn = document.getElementById('submit-btn');
+let isSignUp = true;
 
-// Update Budget Display
-budgetRange.addEventListener('input', (e) => {
-    budgetVal.textContent = e.target.value;
+// Toggle between Sign Up and Login
+document.getElementById('show-login').addEventListener('click', () => {
+    isSignUp = false;
+    signupFields.classList.add('hidden');
+    submitBtn.textContent = "Login";
+    document.getElementById('show-login').classList.add('active');
+    document.getElementById('show-signup').classList.remove('active');
 });
 
-// 2. Register Function
-document.getElementById('register-btn').addEventListener('click', async () => {
-    const email = emailInput.value;
-    const password = passwordInput.value;
+document.getElementById('show-signup').addEventListener('click', () => {
+    isSignUp = true;
+    signupFields.classList.remove('hidden');
+    submitBtn.textContent = "Sign Up & Analyze";
+    document.getElementById('show-signup').classList.add('active');
+    document.getElementById('show-login').classList.remove('active');
+});
+
+// Update Budget Label
+document.getElementById('budget-range').addEventListener('input', (e) => {
+    document.getElementById('budget-val').textContent = e.target.value;
+});
+
+// Handle Form Submission
+document.getElementById('pc-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
     
-    const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-    });
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('pass').value;
 
-    if (error) {
-        authMessage.textContent = error.message;
+    if (isSignUp) {
+        // Sign Up Logic
+        const { data, error } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    full_name: document.getElementById('name').value,
+                    phone: document.getElementById('tel').value
+                }
+            }
+        });
+        if (error) alert(error.message);
+        else alert("Check your email for confirmation!");
     } else {
-        authMessage.textContent = "Registration successful! Please check your email to verify.";
-        authMessage.style.color = "green";
+        // Login Logic
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        });
+        if (error) alert(error.message);
+        else alert("Welcome back!");
     }
 });
-
-// 3. Login Function
-document.getElementById('login-btn').addEventListener('click', async () => {
-    const email = emailInput.value;
-    const password = passwordInput.value;
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-    });
-
-    if (error) {
-        authMessage.textContent = error.message;
-    } else {
-        authMessage.textContent = "";
-        checkUser(); // Update UI
-    }
-});
-
-// 4. Logout Function
-document.getElementById('logout-btn').addEventListener('click', async () => {
-    await supabase.auth.signOut();
-    checkUser(); // Update UI
-});
-
-// 5. Check User Session & Update UI
-async function checkUser() {
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (user) {
-        // User is logged in: Hide auth, show configurator
-        authSection.classList.add('hidden');
-        configSection.classList.remove('hidden');
-    } else {
-        // User is logged out: Show auth, hide configurator
-        authSection.classList.remove('hidden');
-        configSection.classList.add('hidden');
-    }
-}
-
-// Run on page load
-checkUser();
