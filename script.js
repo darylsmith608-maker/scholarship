@@ -2,10 +2,9 @@
 const supabaseUrl = 'https://uckyzrjhnbcjzyxfrhdg.supabase.co';
 const supabaseKey = 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u';
 
-// FIX: If using the CDN script, the global object is 'supabase'
-// and the function is 'createClient'. 
-// We use a different variable name for the instance to avoid confusion.
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+// FIX: Change 'const supabase' to 'const supabaseClient' 
+// to avoid colliding with the global 'supabase' object from the CDN
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 // Selectors
 const authSection = document.getElementById('auth-section');
@@ -42,7 +41,7 @@ document.getElementById('auth-form').addEventListener('submit', async (e) => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('pass').value;
 
-    let result; // Renamed to avoid confusion
+    let result; 
     
     try {
         if (isSignUpMode) {
@@ -50,7 +49,8 @@ document.getElementById('auth-form').addEventListener('submit', async (e) => {
             const fullName = document.getElementById('name').value;
             const phone = document.getElementById('tel').value;
 
-            result = await supabase.auth.signUp({
+            // FIX: Use supabaseClient here
+            result = await supabaseClient.auth.signUp({
                 email, 
                 password,
                 options: { 
@@ -61,17 +61,15 @@ document.getElementById('auth-form').addEventListener('submit', async (e) => {
                 }
             });
         } else {
-            // Login Logic
-            result = await supabase.auth.signInWithPassword({ email, password });
+            // Login Logic - FIX: Use supabaseClient here
+            result = await supabaseClient.auth.signInWithPassword({ email, password });
         }
 
-        // FIX: Supabase returns { data, error }
         const { data, error } = result;
 
         if (error) {
             alert(error.message);
         } else {
-            // SUCCESS: Show Configurator
             authSection.classList.add('hidden');
             configSection.classList.remove('hidden');
             headerDesc.textContent = "Define your needs. Discover your build.";
