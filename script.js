@@ -1,7 +1,9 @@
-// Initialize Supabase
+// 1. Initialize Supabase Correctly
 const supabaseUrl = 'https://uckyzrjhnbcjzyxfrhdg.supabase.co';
 const supabaseKey = 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u';
-const supabase = supabase.createClient(https://uckyzrjhnbcjzyxfrhdg.supabase.co, https://uckyzrjhnbcjzyxfrhdg.supabase.co);
+
+// FIX: Use the variables defined above inside the parentheses
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 // Selectors
 const authSection = document.getElementById('auth-section');
@@ -14,9 +16,9 @@ const headerDesc = document.getElementById('header-desc');
 
 let isSignUpMode = false;
 
-// 1. Toggle Login/Signup
+// 2. Toggle Login/Signup
 showLogin.addEventListener('click', () => {
-    isSignUpMode = true;
+    isSignUpMode = false; // FIX: Should be false for login
     signupFields.classList.add('hidden');
     authSubmitBtn.textContent = "Login";
     showLogin.classList.add('active');
@@ -24,29 +26,35 @@ showLogin.addEventListener('click', () => {
 });
 
 showSignup.addEventListener('click', () => {
-    isSignUpMode = true;
+    isSignUpMode = true; // Correct: true for signup
     signupFields.classList.remove('hidden');
     authSubmitBtn.textContent = "Sign Up";
     showSignup.classList.add('active');
     showLogin.classList.remove('active');
 });
 
-// 2. Handle Authentication
+// 3. Handle Authentication
 document.getElementById('auth-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('pass').value;
 
     let response;
+    
     if (isSignUpMode) {
+        // Sign Up Logic
         response = await supabase.auth.signUp({
-            email, password,
-            options: { data: { 
-                full_name: document.getElementById('name').value,
-                phone: document.getElementById('tel').value 
-            }}
+            email, 
+            password,
+            options: { 
+                data: { 
+                    full_name: document.getElementById('name').value,
+                    phone: document.getElementById('tel').value 
+                }
+            }
         });
     } else {
+        // Login Logic
         response = await supabase.auth.signInWithPassword({ email, password });
     }
 
@@ -60,7 +68,7 @@ document.getElementById('auth-form').addEventListener('submit', async (e) => {
     }
 });
 
-// 3. PC Form Logic
+// 4. PC Form Logic
 document.getElementById('budget-range').addEventListener('input', (e) => {
     document.getElementById('budget-val').textContent = e.target.value;
 });
@@ -68,5 +76,4 @@ document.getElementById('budget-range').addEventListener('input', (e) => {
 document.getElementById('pc-form').addEventListener('submit', (e) => {
     e.preventDefault();
     document.getElementById('results').classList.remove('hidden');
-    // Your component analysis logic goes here
 });
