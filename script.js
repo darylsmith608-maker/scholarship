@@ -2,7 +2,9 @@
 const supabaseUrl = 'https://uckyzrjhnbcjzyxfrhdg.supabase.co';
 const supabaseKey = 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u';
 
-// FIX: Use the variables defined above inside the parentheses
+// FIX: If using the CDN script, the global object is 'supabase'
+// and the function is 'createClient'. 
+// We use a different variable name for the instance to avoid confusion.
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 // Selectors
@@ -18,7 +20,7 @@ let isSignUpMode = false;
 
 // 2. Toggle Login/Signup
 showLogin.addEventListener('click', () => {
-    isSignUpMode = false; // FIX: Should be false for login
+    isSignUpMode = false; 
     signupFields.classList.add('hidden');
     authSubmitBtn.textContent = "Login";
     showLogin.classList.add('active');
@@ -26,7 +28,7 @@ showLogin.addEventListener('click', () => {
 });
 
 showSignup.addEventListener('click', () => {
-    isSignUpMode = true; // Correct: true for signup
+    isSignUpMode = true; 
     signupFields.classList.remove('hidden');
     authSubmitBtn.textContent = "Sign Up";
     showSignup.classList.add('active');
@@ -36,42 +38,58 @@ showSignup.addEventListener('click', () => {
 // 3. Handle Authentication
 document.getElementById('auth-form').addEventListener('submit', async (e) => {
     e.preventDefault();
+    
     const email = document.getElementById('email').value;
     const password = document.getElementById('pass').value;
 
-    let response;
+    let result; // Renamed to avoid confusion
     
-    if (isSignUpMode) {
-        // Sign Up Logic
-        response = await supabase.auth.signUp({
-            email, 
-            password,
-            options: { 
-                data: { 
-                    full_name: document.getElementById('name').value,
-                    phone: document.getElementById('tel').value 
-                }
-            }
-        });
-    } else {
-        // Login Logic
-        response = await supabase.auth.signInWithPassword({ email, password });
-    }
+    try {
+        if (isSignUpMode) {
+            // Sign Up Logic
+            const fullName = document.getElementById('name').value;
+            const phone = document.getElementById('tel').value;
 
-    if (response.error) {
-        alert(response.error.message);
-    } else {
-        // SUCCESS: Show Configurator
-        authSection.classList.add('hidden');
-        configSection.classList.remove('hidden');
-        headerDesc.textContent = "Define your needs. Discover your build.";
+            result = await supabase.auth.signUp({
+                email, 
+                password,
+                options: { 
+                    data: { 
+                        full_name: fullName,
+                        phone: phone 
+                    }
+                }
+            });
+        } else {
+            // Login Logic
+            result = await supabase.auth.signInWithPassword({ email, password });
+        }
+
+        // FIX: Supabase returns { data, error }
+        const { data, error } = result;
+
+        if (error) {
+            alert(error.message);
+        } else {
+            // SUCCESS: Show Configurator
+            authSection.classList.add('hidden');
+            configSection.classList.remove('hidden');
+            headerDesc.textContent = "Define your needs. Discover your build.";
+            console.log("Auth success:", data);
+        }
+    } catch (err) {
+        console.error("Unexpected error:", err);
+        alert("An unexpected error occurred.");
     }
 });
 
 // 4. PC Form Logic
-document.getElementById('budget-range').addEventListener('input', (e) => {
-    document.getElementById('budget-val').textContent = e.target.value;
-});
+const budgetRange = document.getElementById('budget-range');
+if (budgetRange) {
+    budgetRange.addEventListener('input', (e) => {
+        document.getElementById('budget-val').textContent = e.target.value;
+    });
+}
 
 document.getElementById('pc-form').addEventListener('submit', (e) => {
     e.preventDefault();
