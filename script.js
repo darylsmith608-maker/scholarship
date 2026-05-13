@@ -1,10 +1,10 @@
 // 1. Initialize Supabase Correctly
+// 'supabase' is the library (from your HTML script tag)
+// 'db' is your specific project connection instance
 const supabaseUrl = 'https://uckyzrjhnbcjzyxfrhdg.supabase.co';
 const supabaseKey = 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u';
 
-// FIX: Change 'const supabase' to 'const supabaseClient' 
-// to avoid colliding with the global 'supabase' object from the CDN
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+const db = supabase.createClient(supabaseUrl, supabaseKey);
 
 // Selectors
 const authSection = document.getElementById('auth-section');
@@ -17,7 +17,7 @@ const headerDesc = document.getElementById('header-desc');
 
 let isSignUpMode = false;
 
-// 2. Toggle Login/Signup
+// 2. Toggle Login/Signup UI
 showLogin.addEventListener('click', () => {
     isSignUpMode = false; 
     signupFields.classList.add('hidden');
@@ -49,8 +49,7 @@ document.getElementById('auth-form').addEventListener('submit', async (e) => {
             const fullName = document.getElementById('name').value;
             const phone = document.getElementById('tel').value;
 
-            // FIX: Use supabaseClient here
-            result = await supabaseClient.auth.signUp({
+            result = await db.auth.signUp({
                 email, 
                 password,
                 options: { 
@@ -61,8 +60,8 @@ document.getElementById('auth-form').addEventListener('submit', async (e) => {
                 }
             });
         } else {
-            // Login Logic - FIX: Use supabaseClient here
-            result = await supabaseClient.auth.signInWithPassword({ email, password });
+            // Login Logic
+            result = await db.auth.signInWithPassword({ email, password });
         }
 
         const { data, error } = result;
@@ -70,13 +69,14 @@ document.getElementById('auth-form').addEventListener('submit', async (e) => {
         if (error) {
             alert(error.message);
         } else {
+            // SUCCESS: Transition UI
             authSection.classList.add('hidden');
             configSection.classList.remove('hidden');
             headerDesc.textContent = "Define your needs. Discover your build.";
-            console.log("Auth success:", data);
+            console.log("Success!", data);
         }
     } catch (err) {
-        console.error("Unexpected error:", err);
+        console.error("Critical error:", err);
         alert("An unexpected error occurred.");
     }
 });
@@ -85,11 +85,16 @@ document.getElementById('auth-form').addEventListener('submit', async (e) => {
 const budgetRange = document.getElementById('budget-range');
 if (budgetRange) {
     budgetRange.addEventListener('input', (e) => {
-        document.getElementById('budget-val').textContent = e.target.value;
+        const valDisplay = document.getElementById('budget-val');
+        if (valDisplay) valDisplay.textContent = e.target.value;
     });
 }
 
-document.getElementById('pc-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    document.getElementById('results').classList.remove('hidden');
-});
+const pcForm = document.getElementById('pc-form');
+if (pcForm) {
+    pcForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const resultsSection = document.getElementById('results');
+        if (resultsSection) resultsSection.classList.remove('hidden');
+    });
+}
