@@ -1,7 +1,7 @@
 // Initialize Supabase
 const supabaseUrl = 'https://uckyzrjhnbcjzyxfrhdg.supabase.co';
 const supabaseKey = 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const supabase = supabase.createClient(https://uckyzrjhnbcjzyxfrhdg.supabase.co, https://uckyzrjhnbcjzyxfrhdg.supabase.co);
 
 // Selectors
 const authSection = document.getElementById('auth-section');
