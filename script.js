@@ -16,7 +16,7 @@ let isSignUpMode = false;
 
 // 1. Toggle Login/Signup
 showLogin.addEventListener('click', () => {
-    isSignUpMode = false;
+    isSignUpMode = true;
     signupFields.classList.add('hidden');
     authSubmitBtn.textContent = "Login";
     showLogin.classList.add('active');
