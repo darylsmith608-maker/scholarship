@@ -8,12 +8,11 @@
 </head>
 <body>
 
-    <!-- Header / Navigation Bar -->
+    <!-- Header / Navigation Bar (Contains right corner dropdown) -->
     <header class="navbar">
         <div class="nav-brand">Urban Oracle PC Configurator</div>
         <p id="header-desc">Please login or sign up to discover your build.</p>
 
-        <!-- Right Hand Corner Dropdown (Hidden by default, shown on Login) -->
         <div id="user-nav" class="user-nav hidden">
             <div class="dropdown">
                 <button id="dropdown-toggle" class="dropdown-toggle">
@@ -32,10 +31,10 @@
         </div>
     </header>
 
-    <!-- Main Content Area -->
+    <!-- Main Workspace Area -->
     <main>
         
-        <!-- 1. Authentication Portal Section (Only One Left Now) -->
+        <!-- SINGLE AUTHENTICATION SECTION -->
         <section id="auth-section">
             <div class="auth-tabs">
                 <button id="show-login" class="active">Login</button>
@@ -43,13 +42,13 @@
             </div>
             
             <form id="auth-form">
-                <!-- Registration Fields Container (Toggled via JS) -->
+                <!-- Registration Fields Container (Hidden during login mode) -->
                 <div id="signup-fields" class="hidden">
                     <input type="text" id="name" placeholder="Full Name">
                     <input type="tel" id="tel" placeholder="Phone Number">
                 </div>
                 
-                <!-- Core Credentials (Strictly matched IDs for your JS login functionality) -->
+                <!-- Core Credentials Fields -->
                 <input type="email" id="email" placeholder="Email" required>
                 <input type="password" id="pass" placeholder="Password" required>
                 
@@ -57,7 +56,7 @@
             </form>
         </section>
 
-        <!-- 2. PC Configurator Dashboard Section (Hidden until user logs in successfully) -->
+        <!-- PC Configurator Module (Hidden until login) -->
         <section id="config-section" class="hidden">
             <form id="pc-form">
                 <label for="use-case">What will you use this PC for?</label>
@@ -75,7 +74,7 @@
             </form>
         </section>
 
-        <!-- 3. Dynamic Build Recommendation Output Section -->
+        <!-- Results Display Section -->
         <section id="results" class="hidden">
             <h2>Your Custom Recommendation</h2>
             <div id="component-list"></div>
@@ -83,7 +82,7 @@
 
     </main>
 
-    <!-- External Script Dependencies (Loaded exactly once at the bottom) -->
+    <!-- Dependencies loaded exactly once at the absolute bottom -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
