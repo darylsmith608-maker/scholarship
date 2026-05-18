@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     const supabaseUrl = 'https://uckyzrjhnbcjzyxfrhdg.supabase.co';
     const supabaseKey = 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u';
-
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     // ==========================================
@@ -26,13 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const budgetVal = document.getElementById('budget-val');
     const pcForm = document.getElementById('pc-form');
 
-    // Dropdown UI Targets
+    // Dropdown Layout Targets
     const dropdownToggle = document.getElementById('dropdown-toggle');
     const dropdownMenu = document.getElementById('dropdown-menu');
     const dropdownUsername = document.getElementById('dropdown-username');
 
-    // State to track whether the user is looking at Login or Sign Up mode
-    // Defaulting to true (Login) to match your landing tab layout state
     let isLoginMode = true;
 
     // ==========================================
@@ -46,11 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (signupFields) signupFields.classList.add('hidden');
             if (authSubmitBtn) authSubmitBtn.textContent = 'Login';
             
-            // Remove requirement constraints so login engine skips checking registration inputs
+            // Remove requirements so login clears safely without validation blocks
             const nameField = document.getElementById('name');
-            const telField = document.getElementById('tel');
             if (nameField) nameField.removeAttribute('required');
-            if (telField) telField.removeAttribute('required');
         });
     }
 
@@ -62,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (signupFields) signupFields.classList.remove('hidden');
             if (authSubmitBtn) authSubmitBtn.textContent = 'Sign Up';
             
-            // Enforce registration input validation now that fields are visible
+            // Require name ONLY during signup
             const nameField = document.getElementById('name');
             if (nameField) nameField.setAttribute('required', 'true');
         });
@@ -73,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     if (dropdownToggle && dropdownMenu) {
         dropdownToggle.addEventListener('click', (e) => {
-            e.stopPropagation(); // Stops window click event listener from instantly closing it
+            e.stopPropagation();
             dropdownMenu.classList.toggle('hidden');
         });
     }
@@ -94,36 +89,43 @@ document.addEventListener('DOMContentLoaded', () => {
             const emailField = document.getElementById('email');
             const passField = document.getElementById('pass');
             
+            // Safety Check: Instantly flags if your HTML inputs don't have matching IDs
             if (!emailField || !passField) {
-                console.error("Core authentication fields (email/password) are missing from the HTML DOM.");
+                alert("HTML Error: Cannot find inputs with id='email' or id='pass' inside your form.");
                 return;
             }
 
-            const email = emailField.value;
+            const email = emailField.value.trim();
             const password = passField.value;
+
+            // Simple client-side check before reaching out to Supabase
+            if (!email || !password) {
+                alert("Please fill out both your email and password.");
+                return;
+            }
 
             try {
                 if (isLoginMode) {
-                    // --- LOGIN LOGIC ---
+                    // --- FIXED LOGIN LOGIC ---
                     const { data, error } = await supabase.auth.signInWithPassword({
                         email: email,
                         password: password,
                     });
 
                     if (error) {
+                        // Will alert you if credentials are wrong, email unconfirmed, etc.
                         alert('Login failed: ' + error.message);
                     } else {
                         alert('Successfully logged in!');
-                        checkUser(); 
+                        await checkUser(); // Refresh application layout state
                     }
                 } else {
                     // --- SIGN UP LOGIC ---
                     const nameField = document.getElementById('name');
                     const telField = document.getElementById('tel');
                     
-                    // Safe fallbacks to prevent variable evaluation failure crashes
-                    const fullName = nameField ? nameField.value : '';
-                    const phone = telField ? telField.value : '';
+                    const fullName = nameField ? nameField.value.trim() : '';
+                    const phone = telField ? telField.value.trim() : '';
 
                     const { data, error } = await supabase.auth.signUp({
                         email: email,
@@ -139,13 +141,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (error) {
                         alert('Sign up failed: ' + error.message);
                     } else {
-                        alert('Sign up successful! Please check your email for a confirmation link or log in.');
-                        if (showLoginBtn) showLoginBtn.click(); // Reset tab view panel to login layout
+                        alert('Sign up successful! Please check your email inbox for a verification link or try logging in.');
+                        if (showLoginBtn) showLoginBtn.click(); 
                     }
                 }
             } catch (err) {
-                console.error("Critical Auth Runtime Error:", err);
-                alert("An unexpected error occurred during authentication.");
+                console.error("Critical Auth Error:", err);
+                alert("An unexpected error occurred during authentication. Please check your browser console.");
             }
         });
     }
@@ -162,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Logged out successfully.');
                 if (configSection) configSection.classList.add('hidden');
                 if (resultsSection) resultsSection.classList.add('hidden');
-                checkUser(); 
+                await checkUser(); 
             }
         });
     }
@@ -186,11 +188,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (headerDesc) {
                     headerDesc.textContent = `Welcome back, ${displayName}! Plan your ultimate build below.`;
                 }
-                
                 if (dropdownUsername) {
                     dropdownUsername.textContent = displayName.split(' ')[0];
                 }
-                
                 if (authForm) authForm.reset();
             } else {
                 // --- USER IS LOGGED OUT ---
@@ -204,11 +204,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         } catch (err) {
-            console.error("Session profile sync failure:", err);
+            console.error("Session evaluation failure:", err);
         }
     }
 
-    // Run active credential checks immediately upon DOM initialization
     checkUser();
 
     // ==========================================
