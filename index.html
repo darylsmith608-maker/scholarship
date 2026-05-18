@@ -3,106 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC Configurator | Research & Budget</title>
+    <title>PC Configurator & Research</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-top">
-                <h1>PC Build Assistant</h1>
-                <!-- Added Sign Out Navigation -->
-                <nav id="user-nav" class="hidden">
-                    <button id="signout-btn" class="logout-button">Sign Out</button>
-                </nav>
+
+    <!-- Header / Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-brand">Urban Oracle PC Configurator</div>
+        <p id="header-desc">Please login or sign up to discover your build.</p>
+
+        <!-- Right Hand Corner Dropdown (Hidden by default, shown on Login) -->
+        <div id="user-nav" class="user-nav hidden">
+            <div class="dropdown">
+                <button id="dropdown-toggle" class="dropdown-toggle">
+                    <span class="avatar">👤</span>
+                    <span id="dropdown-username">Account</span>
+                    <span class="arrow">▼</span>
+                </button>
+                
+                <div id="dropdown-menu" class="dropdown-menu hidden">
+                    <a href="#profile" class="dropdown-item">Profile</a>
+                    <a href="#settings" class="dropdown-item">Settings</a>
+                    <hr class="dropdown-divider">
+                    <button id="signout-btn" class="dropdown-item signout-item">Sign Out</button>
+                </div>
             </div>
-            <p id="header-desc">Please login or sign up to discover your build.</p>
-        </header>
+        </div>
+    </header>
 
-        <main>
-            <section id="auth-section">
-                <div class="form-toggle">
-                    <button id="show-login" class="active">Login</button>
-                    <button id="show-signup">Sign Up</button>
+    <!-- Main Content Area -->
+    <main>
+        <!-- Auth Section -->
+        <section id="auth-section">
+            <div class="auth-tabs">
+                <button id="show-login" class="active">Login</button>
+                <button id="show-signup">Sign Up</button>
+            </div>
+            <form id="auth-form">
+                <div id="signup-fields" class="hidden">
+                    <input type="text" id="name" placeholder="Full Name">
+                    <input type="tel" id="tel" placeholder="Phone Number">
                 </div>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="pass" placeholder="Password" required>
+                <button type="submit" id="auth-submit-btn">Login</button>
+            </form>
+        </section>
 
-                <form id="auth-form">
-                    <div class="input-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="email@example.com" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="pass">Password</label>
-                        <input type="password" id="pass" placeholder="••••••••" required>
-                    </div>
-                    
-                    <div id="signup-fields" class="hidden">
-                        <div class="input-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" placeholder="John Doe">
-                        </div>
-                        <div class="input-group">
-                            <label for="tel">Telephone</label>
-                            <input type="tel" id="tel" placeholder="+1 (555) 000-0000">
-                        </div>
-                    </div>
+        <!-- PC Configurator Section -->
+        <section id="config-section" class="hidden">
+            <form id="pc-form">
+                <label for="use-case">What will you use this PC for?</label>
+                <select id="use-case">
+                    <option value="Gaming">Gaming</option>
+                    <option value="Streaming & Content Creation">Streaming & Content Creation</option>
+                    <option value="Software Development">Software Development</option>
+                    <option value="General Budget Use">General Budget Use</option>
+                </select>
 
-                    <button type="submit" id="auth-submit-btn">Login</button>
-                </form>
-            </section>
+                <label for="budget-range">Budget: $<span id="budget-val">1000</span></label>
+                <input type="range" id="budget-range" min="400" max="4000" step="50" value="1000">
 
-            <section id="config-section" class="hidden">
-                <form id="pc-form">
-                    <div class="config-card">
-                        <h2>Configuration</h2>
-                        <div class="input-group">
-                            <label for="use-case">Primary Use Case</label>
-                            <select id="use-case">
-                                <option value="office">Office / Research</option>
-                                <option value="gaming">Gaming / High Perf</option>
-                                <option value="creative">Content Creation</option>
-                            </select>
-                        </div>
+                <button type="submit">Analyze Build</button>
+            </form>
+        </section>
 
-                        <div class="input-group">
-                            <label for="budget-range">Target Budget: $<span id="budget-val">800</span></label>
-                            <input type="range" id="budget-range" min="400" max="3000" step="100" value="800">
-                        </div>
-                    </div>
-                    <button type="submit" id="generate-btn">Analyze Components</button>
-                </form>
-            </section>
-            
-            <section id="results" class="hidden">
-                <h2>Recommended Allocation</h2>
-                <div id="component-list"></div>
-                <div class="total-status">
-                    <p>Estimated Efficiency: <strong id="efficiency">High</strong></p>
-                </div>
-            </section>
-        </main>
-    </div>
+        <!-- Results Display Section -->
+        <section id="results" class="hidden">
+            <h2>Your Custom Recommendation</h2>
+            <div id="component-list"></div>
+        </section>
+    </main>
+
+    <!-- JavaScript Link -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
 </html>
-<!-- Inside your website header/navigation bar -->
-<div id="user-nav" class="user-nav hidden">
-  <div class="dropdown">
-    
-    <button id="dropdown-toggle" class="dropdown-toggle">
-      <span class="avatar">👤</span>
-      <span id="dropdown-username">Account</span>
-      <span class="arrow">▼</span>
-    </button>
-    
-    <div id="dropdown-menu" class="dropdown-menu hidden">
-      <a href="#profile" class="dropdown-item">Profile</a>
-      <a href="#settings" class="dropdown-item">Settings</a>
-      <hr class="dropdown-divider">
-      <button id="signout-btn" class="dropdown-item signout-item">Sign Out</button>
-    </div>
-
-  </div>
-</div>
