@@ -8,68 +8,56 @@
 </head>
 <body>
 
-   <!-- Inside your website header / navigation bar -->
-<header class="navbar">
-    <div class="nav-brand">Urban Oracle PC Configurator</div>
-    <p id="header-desc">Please login or sign up to discover your build.</p>
+    <!-- Header / Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-brand">Urban Oracle PC Configurator</div>
+        <p id="header-desc">Please login or sign up to discover your build.</p>
 
-    <!-- Dropdown Container -->
-    <div id="user-nav" class="user-nav hidden">
-        <div class="dropdown">
-            <button id="dropdown-toggle" class="dropdown-toggle">
-                <span class="avatar">👤</span>
-                <span id="dropdown-username">Account</span>
-                <span class="arrow">▼</span>
-            </button>
-            <div id="dropdown-menu" class="dropdown-menu hidden">
-                <a href="#profile" class="dropdown-item">Profile</a>
-                <a href="#settings" class="dropdown-item">Settings</a>
-                <hr class="dropdown-divider">
-                <button id="signout-btn" class="dropdown-item signout-item">Sign Out</button>
+        <!-- Right Hand Corner Dropdown (Hidden by default, shown on Login) -->
+        <div id="user-nav" class="user-nav hidden">
+            <div class="dropdown">
+                <button id="dropdown-toggle" class="dropdown-toggle">
+                    <span class="avatar">👤</span>
+                    <span id="dropdown-username">Account</span>
+                    <span class="arrow">▼</span>
+                </button>
+                
+                <div id="dropdown-menu" class="dropdown-menu hidden">
+                    <a href="#profile" class="dropdown-item">Profile</a>
+                    <a href="#settings" class="dropdown-item">Settings</a>
+                    <hr class="dropdown-divider">
+                    <button id="signout-btn" class="dropdown-item signout-item">Sign Out</button>
+                </div>
             </div>
         </div>
-    </div>
-</header>
-
-<!-- Authentication Form Container -->
-<section id="auth-section">
-    <div class="auth-tabs">
-        <button id="show-login" class="active">Login</button>
-        <button id="show-signup">Sign Up</button>
-    </div>
-    
-    <!-- Crucial: Check every single ID in this form! -->
-    <form id="auth-form">
-        <div id="signup-fields" class="hidden">
-            <input type="text" id="name" placeholder="Full Name">
-            <input type="tel" id="tel" placeholder="Phone Number">
-        </div>
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="pass" placeholder="Password" required>
-        <button type="submit" id="auth-submit-btn">Login</button>
-    </form>
-</section>
+    </header>
 
     <!-- Main Content Area -->
     <main>
-        <!-- Auth Section -->
+        
+        <!-- 1. Authentication Portal Section (Only One Left Now) -->
         <section id="auth-section">
             <div class="auth-tabs">
                 <button id="show-login" class="active">Login</button>
                 <button id="show-signup">Sign Up</button>
             </div>
+            
             <form id="auth-form">
+                <!-- Registration Fields Container (Toggled via JS) -->
                 <div id="signup-fields" class="hidden">
                     <input type="text" id="name" placeholder="Full Name">
                     <input type="tel" id="tel" placeholder="Phone Number">
                 </div>
+                
+                <!-- Core Credentials (Strictly matched IDs for your JS login functionality) -->
                 <input type="email" id="email" placeholder="Email" required>
                 <input type="password" id="pass" placeholder="Password" required>
+                
                 <button type="submit" id="auth-submit-btn">Login</button>
             </form>
         </section>
 
-        <!-- PC Configurator Section -->
+        <!-- 2. PC Configurator Dashboard Section (Hidden until user logs in successfully) -->
         <section id="config-section" class="hidden">
             <form id="pc-form">
                 <label for="use-case">What will you use this PC for?</label>
@@ -87,14 +75,15 @@
             </form>
         </section>
 
-        <!-- Results Display Section -->
+        <!-- 3. Dynamic Build Recommendation Output Section -->
         <section id="results" class="hidden">
             <h2>Your Custom Recommendation</h2>
             <div id="component-list"></div>
         </section>
+
     </main>
 
-    <!-- JavaScript Link -->
+    <!-- External Script Dependencies (Loaded exactly once at the bottom) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
