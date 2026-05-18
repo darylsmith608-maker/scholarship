@@ -1,10 +1,9 @@
 // 1. Initialize Supabase Correctly
-// Keeping your actual project credentials from your working code
 const supabaseUrl = 'https://uckyzrjhnbcjzyxfrhdg.supabase.co';
 const supabaseKey = 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u';
 
-// Initializing as 'supabase' directly to remain consistent with your references
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+// Use a slightly different global name to avoid initialization loops
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 // 2. DOM Elements / Selectors
 const authSection = document.getElementById('auth-section');
@@ -65,7 +64,7 @@ if (authForm) {
         try {
             if (isLoginMode) {
                 // --- LOGIN LOGIC ---
-                const { data, error } = await supabase.auth.signInWithPassword({
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
                     email: email,
                     password: password,
                 });
@@ -78,10 +77,13 @@ if (authForm) {
                 }
             } else {
                 // --- SIGN UP LOGIC ---
-                const fullName = document.getElementById('name').value;
-                const phone = document.getElementById('tel').value;
+                const nameElement = document.getElementById('name');
+                const telElement = document.getElementById('tel'); // Matches your HTML id="tel"
+                
+                const fullName = nameElement ? nameElement.value : '';
+                const phone = telElement ? telElement.value : '';
 
-                const { data, error } = await supabase.auth.signUp({
+                const { data, error } = await supabaseClient.auth.signUp({
                     email: email,
                     password: password,
                     options: {
@@ -95,7 +97,7 @@ if (authForm) {
                 if (error) {
                     alert('Sign up failed: ' + error.message);
                 } else {
-                    alert('Sign up successful! Please check your email for a confirmation link (if enabled) or log in.');
+                    alert('Sign up successful! You can now log in.');
                     // Automatically switch back to login view
                     if (showLoginBtn) showLoginBtn.click();
                 }
@@ -110,7 +112,7 @@ if (authForm) {
 // 5. Handle Sign Out
 if (signoutBtn) {
     signoutBtn.addEventListener('click', async () => {
-        const { error } = await supabase.auth.signOut();
+        const { error } = await supabaseClient.auth.signOut();
         if (error) {
             alert('Error signing out: ' + error.message);
         } else {
@@ -126,7 +128,7 @@ if (signoutBtn) {
 // 6. Check User Session Status & Update UI
 async function checkUser() {
     try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session } } = await supabaseClient.auth.getSession();
 
         if (session) {
             // User is LOGGED IN
