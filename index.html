@@ -10,7 +10,13 @@
 <body>
     <div class="container">
         <header>
-            <h1>PC Build Assistant</h1>
+            <div class="header-top">
+                <h1>PC Build Assistant</h1>
+                <!-- Added Sign Out Navigation -->
+                <nav id="user-nav" class="hidden">
+                    <button id="signout-btn" class="logout-button">Sign Out</button>
+                </nav>
+            </div>
             <p id="header-desc">Please login or sign up to discover your build.</p>
         </header>
 
@@ -67,7 +73,8 @@
                     <button type="submit" id="generate-btn">Analyze Components</button>
                 </form>
             </section>
-             <section id="results" class="hidden">
+            
+            <section id="results" class="hidden">
                 <h2>Recommended Allocation</h2>
                 <div id="component-list"></div>
                 <div class="total-status">
