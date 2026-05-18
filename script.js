@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const budgetVal = document.getElementById('budget-val');
     const pcForm = document.getElementById('pc-form');
 
-    // Dropdown Layout Targets
     const dropdownToggle = document.getElementById('dropdown-toggle');
     const dropdownMenu = document.getElementById('dropdown-menu');
     const dropdownUsername = document.getElementById('dropdown-username');
@@ -43,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (signupFields) signupFields.classList.add('hidden');
             if (authSubmitBtn) authSubmitBtn.textContent = 'Login';
             
-            // Remove requirements so login clears safely without validation blocks
             const nameField = document.getElementById('name');
             if (nameField) nameField.removeAttribute('required');
         });
@@ -57,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (signupFields) signupFields.classList.remove('hidden');
             if (authSubmitBtn) authSubmitBtn.textContent = 'Sign Up';
             
-            // Require name ONLY during signup
             const nameField = document.getElementById('name');
             if (nameField) nameField.setAttribute('required', 'true');
         });
@@ -89,38 +86,28 @@ document.addEventListener('DOMContentLoaded', () => {
             const emailField = document.getElementById('email');
             const passField = document.getElementById('pass');
             
-            // Safety Check: Instantly flags if your HTML inputs don't have matching IDs
             if (!emailField || !passField) {
-                alert("HTML Error: Cannot find inputs with id='email' or id='pass' inside your form.");
+                alert("HTML ID error: Missing fields.");
                 return;
             }
 
             const email = emailField.value.trim();
             const password = passField.value;
 
-            // Simple client-side check before reaching out to Supabase
-            if (!email || !password) {
-                alert("Please fill out both your email and password.");
-                return;
-            }
-
             try {
                 if (isLoginMode) {
-                    // --- FIXED LOGIN LOGIC ---
                     const { data, error } = await supabase.auth.signInWithPassword({
                         email: email,
                         password: password,
                     });
 
                     if (error) {
-                        // Will alert you if credentials are wrong, email unconfirmed, etc.
                         alert('Login failed: ' + error.message);
                     } else {
                         alert('Successfully logged in!');
-                        await checkUser(); // Refresh application layout state
+                        await checkUser(); 
                     }
                 } else {
-                    // --- SIGN UP LOGIC ---
                     const nameField = document.getElementById('name');
                     const telField = document.getElementById('tel');
                     
@@ -147,7 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (err) {
                 console.error("Critical Auth Error:", err);
-                alert("An unexpected error occurred during authentication. Please check your browser console.");
             }
         });
     }
@@ -177,7 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const { data: { session } } = await supabase.auth.getSession();
 
             if (session) {
-                // --- USER IS LOGGED IN ---
                 if (authSection) authSection.classList.add('hidden');
                 if (configSection) configSection.classList.remove('hidden');
                 if (userNav) userNav.classList.remove('hidden'); 
@@ -193,7 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 if (authForm) authForm.reset();
             } else {
-                // --- USER IS LOGGED OUT ---
                 if (authSection) authSection.classList.remove('hidden');
                 if (configSection) configSection.classList.add('hidden');
                 if (resultsSection) resultsSection.classList.add('hidden');
