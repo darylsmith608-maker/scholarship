@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropdownUsername = document.getElementById('dropdown-username');
 
     // State to track whether the user is looking at Login or Sign Up mode
+    // Defaulting to true (Login) to match your landing tab layout state
     let isLoginMode = true;
 
     // ==========================================
@@ -45,9 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (signupFields) signupFields.classList.add('hidden');
             if (authSubmitBtn) authSubmitBtn.textContent = 'Login';
             
-            // Clear requirement rules so login engine skips name checking
+            // Remove requirement constraints so login engine skips checking registration inputs
             const nameField = document.getElementById('name');
+            const telField = document.getElementById('tel');
             if (nameField) nameField.removeAttribute('required');
+            if (telField) telField.removeAttribute('required');
         });
     }
 
@@ -59,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (signupFields) signupFields.classList.remove('hidden');
             if (authSubmitBtn) authSubmitBtn.textContent = 'Sign Up';
             
-            // Enforce username constraints on creation
+            // Enforce registration input validation now that fields are visible
             const nameField = document.getElementById('name');
             if (nameField) nameField.setAttribute('required', 'true');
         });
@@ -70,12 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     if (dropdownToggle && dropdownMenu) {
         dropdownToggle.addEventListener('click', (e) => {
-            e.stopPropagation(); // Stop general window listener from hiding it instantly
+            e.stopPropagation(); // Stops window click event listener from instantly closing it
             dropdownMenu.classList.toggle('hidden');
         });
     }
 
-    // Clear dropdown window state if the user taps empty layout real estate
     window.addEventListener('click', () => {
         if (dropdownMenu && !dropdownMenu.classList.contains('hidden')) {
             dropdownMenu.classList.add('hidden');
@@ -89,8 +91,16 @@ document.addEventListener('DOMContentLoaded', () => {
         authForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('pass').value;
+            const emailField = document.getElementById('email');
+            const passField = document.getElementById('pass');
+            
+            if (!emailField || !passField) {
+                console.error("Core authentication fields (email/password) are missing from the HTML DOM.");
+                return;
+            }
+
+            const email = emailField.value;
+            const password = passField.value;
 
             try {
                 if (isLoginMode) {
@@ -104,12 +114,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         alert('Login failed: ' + error.message);
                     } else {
                         alert('Successfully logged in!');
-                        checkUser(); // Process dynamic application viewport modifications
+                        checkUser(); 
                     }
                 } else {
                     // --- SIGN UP LOGIC ---
-                    const fullName = document.getElementById('name').value;
-                    const phone = document.getElementById('tel').value;
+                    const nameField = document.getElementById('name');
+                    const telField = document.getElementById('tel');
+                    
+                    // Safe fallbacks to prevent variable evaluation failure crashes
+                    const fullName = nameField ? nameField.value : '';
+                    const phone = telField ? telField.value : '';
 
                     const { data, error } = await supabase.auth.signUp({
                         email: email,
@@ -125,12 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (error) {
                         alert('Sign up failed: ' + error.message);
                     } else {
-                        alert('Sign up successful! Please check your email for a confirmation link (if enabled) or log in.');
-                        if (showLoginBtn) showLoginBtn.click(); // Roll visual panels back to standard login
+                        alert('Sign up successful! Please check your email for a confirmation link or log in.');
+                        if (showLoginBtn) showLoginBtn.click(); // Reset tab view panel to login layout
                     }
                 }
             } catch (err) {
-                console.error("Critical Auth Error:", err);
+                console.error("Critical Auth Runtime Error:", err);
                 alert("An unexpected error occurred during authentication.");
             }
         });
@@ -146,10 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Error signing out: ' + error.message);
             } else {
                 alert('Logged out successfully.');
-                // Purge active user interaction frames instantly
                 if (configSection) configSection.classList.add('hidden');
                 if (resultsSection) resultsSection.classList.add('hidden');
-                checkUser(); // Reevaluate views to show authorization portal
+                checkUser(); 
             }
         });
     }
@@ -165,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // --- USER IS LOGGED IN ---
                 if (authSection) authSection.classList.add('hidden');
                 if (configSection) configSection.classList.remove('hidden');
-                if (userNav) userNav.classList.remove('hidden'); // Show layout controls right
+                if (userNav) userNav.classList.remove('hidden'); 
                 
                 const userMetadata = session.user.user_metadata;
                 const displayName = (userMetadata && userMetadata.full_name) || session.user.email;
@@ -174,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     headerDesc.textContent = `Welcome back, ${displayName}! Plan your ultimate build below.`;
                 }
                 
-                // Truncate names for button bounds
                 if (dropdownUsername) {
                     dropdownUsername.textContent = displayName.split(' ')[0];
                 }
@@ -185,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (authSection) authSection.classList.remove('hidden');
                 if (configSection) configSection.classList.add('hidden');
                 if (resultsSection) resultsSection.classList.add('hidden');
-                if (userNav) userNav.classList.add('hidden'); // Collapse entire navigation context panel
+                if (userNav) userNav.classList.add('hidden'); 
                 
                 if (headerDesc) {
                     headerDesc.textContent = "Please login or sign up to discover your build.";
@@ -196,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Evaluate credentials on fresh lifecycle instantiation
+    // Run active credential checks immediately upon DOM initialization
     checkUser();
 
     // ==========================================
