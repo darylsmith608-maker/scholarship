@@ -1,5 +1,5 @@
 // 1. Initialize Supabase as 'db' at the very top to prevent initialization exceptions
-const db = supabase.createClient'https://uckyzrjhnbcjzyxfrhdg.supabase.co', 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u');
+const db = supabase.createClient ('https://uckyzrjhnbcjzyxfrhdg.supabase.co', 'sb_publishable_tIncfVSxcUDc6ABeg-yULQ_nDyOt1_u');
 
 // Track the current mode ('login' or 'signup')
 let isLoginMode = true;
