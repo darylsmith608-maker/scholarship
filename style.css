@@ -154,3 +154,17 @@ body {
     font-weight: 600;
     color: #8b5cf6;
 }
+.assistant-image-container {
+    width: 100%;
+    max-width: 1000px; /* Limits the maximum width so it doesn't get overly distorted */
+    margin: 20px auto; /* Centers the container on your page */
+    padding: 0 15px; /* Adds a little breathing room on smaller screens */
+}
+
+.assistant-preview-img {
+    width: 100%;
+    height: auto; /* Keeps the aspect ratio perfectly intact */
+    display: block;
+    border-radius: 12px; /* Gives it clean, modern rounded corners */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); /* Adds a smooth drop shadow for depth */
+}
