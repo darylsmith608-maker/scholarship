@@ -3,87 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC Configurator & Research</title>
+    <title>PC Build Assistant</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Header / Navigation Bar (Contains right corner dropdown) -->
-    <header class="navbar">
-        <div class="nav-brand">Urban Oracle PC Configurator</div>
-        <p id="header-desc">Please login or sign up to discover your build.</p>
-
-        <div id="user-nav" class="user-nav hidden">
-            <div class="dropdown">
-                <button id="dropdown-toggle" class="dropdown-toggle">
-                    <span class="avatar">👤</span>
-                    <span id="dropdown-username">Account</span>
-                    <span class="arrow">▼</span>
-                </button>
-                
-                <div id="dropdown-menu" class="dropdown-menu hidden">
-                    <a href="#profile" class="dropdown-item">Profile</a>
-                    <a href="#settings" class="dropdown-item">Settings</a>
-                    <hr class="dropdown-divider">
-                    <button id="signout-btn" class="dropdown-item signout-item">Sign Out</button>
-                </div>
-            </div>
-        </div>
+    <!-- Header Section -->
+    <header class="main-header">
+        <h1>PC Build Assistant</h1>
+        <p class="slogan">Define your needs, discover your build.</p>
     </header>
 
-    <!-- Main Workspace Area -->
-    <main>
+    <!-- Main Container -->
+    <main class="container">
         
-        <!-- SINGLE AUTHENTICATION SECTION -->
-        <section id="auth-section">
-            <div class="auth-tabs">
-                <button id="show-login" class="active" type="button">Login</button>
-                <button id="show-signup" type="button">Sign Up</button>
-            </div>
+        <!-- Auth Container (Handles Login, Sign Up, and Sign Out) -->
+        <section class="auth-box" id="auth-box">
             
+            <!-- Shared Form Header -->
+            <h2 id="auth-title">Log In</h2>
+
+            <!-- Combined Auth Form -->
             <form id="auth-form">
-                <!-- Registration Fields Container (Hidden during login mode) -->
-                <div id="signup-fields" class="hidden">
-                    <input type="text" id="reg-name" placeholder="Full Name">
-                    <input type="tel" id="reg-tel" placeholder="Phone Number">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required placeholder="Enter your email">
                 </div>
                 
-                <!-- Core Credentials Fields -->
-                <input type="email" id="auth-email" placeholder="Email" required>
-                <input type="password" id="auth-pass" placeholder="Password" required>
-                
-                <button type="submit" id="auth-submit-btn">Login</button>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required placeholder="Enter your password">
+                </div>
+
+                <button type="submit" id="submit-btn" class="btn btn-primary">Log In</button>
             </form>
-        </section>
 
-        <!-- PC Configurator Module (Hidden until login) -->
-        <section id="config-section" class="hidden">
-            <form id="pc-form">
-                <label for="use-case">What will you use this PC for?</label>
-                <select id="use-case">
-                    <option value="Gaming">Gaming</option>
-                    <option value="Streaming & Content Creation">Streaming & Content Creation</option>
-                    <option value="Software Development">Software Development</option>
-                    <option value="General Budget Use">General Budget Use</option>
-                </select>
+            <!-- Toggle Links -->
+            <div class="toggle-container" id="toggle-container">
+                <p id="toggle-text">Don't have an account? <a href="#" id="toggle-auth-link">Sign Up</a></p>
+            </div>
 
-                <label for="budget-range">Budget: $<span id="budget-val">1000</span></label>
-                <input type="range" id="budget-range" min="400" max="4000" step="50" value="1000">
+            <!-- Profile / Sign Out View (Hidden by default via CSS/JS) -->
+            <div id="user-profile" class="hidden">
+                <p>Welcome back, <span id="user-email-display"></span>!</p>
+                <button id="signout-btn" class="btn btn-danger">Sign Out</button>
+            </div>
 
-                <button type="submit">Analyze Build</button>
-            </form>
-        </section>
-
-        <!-- Results Display Section -->
-        <section id="results" class="hidden">
-            <h2>Your Custom Recommendation</h2>
-            <div id="component-list"></div>
         </section>
 
     </main>
 
-    <!-- Dependencies loaded exactly once at the absolute bottom -->
+    <!-- CRITICAL: Load Supabase CDN Library FIRST -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="script.js"></script>
+    <!-- Load your custom script SECOND -->
+    <script src="script.js" defer></script>
 </body>
 </html>
