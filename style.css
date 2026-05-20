@@ -168,3 +168,14 @@ body {
     border-radius: 12px; /* Gives it clean, modern rounded corners */
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); /* Adds a smooth drop shadow for depth */
 }
+<div class="assistant-image-container">
+    <img src="images/ai-assistant.jpg" alt="Aura Personal AI Assistant v4.2 Dashboard" class="assistant-preview-img">
+</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .about-section { padding: 40px; display: flex; align-items: center; gap: 40px; font-family: sans-serif; }
+        .profile-pic { width: 200px; border-radius: 50%; }
+    </style>
+</head>
