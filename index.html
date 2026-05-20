@@ -70,17 +70,45 @@
         .profile-pic { width: 200px; border-radius: 50%; }
     </style>
 </head>
+<!-- about.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .about-section { max-width: 800px; margin: 50px auto; padding: 20px; font-family: sans-serif; line-height: 1.6; }
+        .profile-pic { width: 150px; border-radius: 50%; display: block; margin: 0 auto 20px; }
+    </style>
+</head>
 <body>
     <div class="about-section">
-        <img src="your-photo.jpg" alt="Your Name" class="profile-pic">
-        <div>
-            <h1>About Me</h1>
-            <p>Hi! I'm Daryl Smith. I am a developer passionate about helping students 
-               find and secure scholarships through innovative tools.</p>
-            <p>My goal with this platform is to simplify the application process 
-               and make higher education more accessible.</p>
-            <h3>Connect with me:</h3>
-            <p>GitHub: <a href="https://github.com/darylsmith608">darylsmith608</a></p>
+        <img src="your-photo.jpg" alt="Daryl Smith" class="profile-pic">
+        <h1 style="text-align: center;">About Me</h1>
+        <p>Hi! I'm <strong>Daryl Smith</strong>, a UI/UX and Frontend Development professional driven by human-centered design.</p>
+        <p>My core focus is currently on the evolution of technology in everyday life. My ultimate goal is to build <strong>custom, intelligent AI assistants</strong> that solve real-world problems and streamline complex tasks for users.</p>
+        <p>This scholarship platform is one step in that journey—applying structured data and intelligent search to help students achieve their educational dreams. I am passionate about crafting clean, functional, and intuitive digital experiences.</p>
+        <p>Let's build the future together.</p>
+    </div>
+</body>
+</html>
+<!-- projects.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px; font-family: sans-serif; }
+        .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">My Projects</h1>
+    <div class="project-grid">
+        <div class="card">
+            <h3>Scholarship Finder</h3>
+            <p>A web-based tool integrated with Supabase to help students locate and manage scholarship opportunities efficiently.</p>
+        </div>
+        <div class="card">
+            <h3>PC Build Assistant</h3>
+            <p>An intelligent tool designed to simplify the process of configuring custom PC builds for enthusiasts.</p>
         </div>
     </div>
 </body>
