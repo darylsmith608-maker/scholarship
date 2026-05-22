@@ -90,3 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
         authForm.reset();
     }
 });
+function handleLogin() {
+    // 1. Perform your authentication logic here
+    const isAuthenticated = true; // Replace with your actual validation
+
+    if (isAuthenticated) {
+        // Redirect the user to the welcome page
+        window.location.href = 'welcome.html';
+    } else {
+        alert("Invalid login credentials.");
+    }
+}
