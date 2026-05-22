@@ -3,92 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC Build Assistant</title>
+    <title>Login | PC Build Assistant</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!-- Header Section -->
-    <header class="main-header">
-        <h1>PC Build Assistant</h1>
-        <p class="slogan">Define your needs, discover your build.</p>
-    </header>
-
-    <!-- Main Container -->
     <main class="container">
-        
-        <!-- Auth Container (Handles Login, Sign Up, and Sign Out) -->
         <section class="auth-box" id="auth-box">
-            
-            <!-- Shared Form Header -->
             <h2 id="auth-title">Log In</h2>
-
-            <!-- Combined Auth Form -->
             <form id="auth-form">
                 <div class="input-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" required placeholder="Enter your email">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
                 </div>
-                
                 <div class="input-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" required placeholder="Enter your password">
+                    <input type="password" id="password" required>
                 </div>
-
-                <button type="submit" id="submit-btn" class="btn btn-primary">Log In</button>
+                <button type="submit" id="submit-btn">Log In</button>
             </form>
-
-            <!-- Toggle Links -->
-            <div class="toggle-container" id="toggle-container">
-                <p id="toggle-text">Don't have an account? <a href="#" id="toggle-auth-link">Sign Up</a></p>
-            </div>
-
-            <!-- Profile / Sign Out View (Hidden by default via CSS/JS) -->
-            <div id="user-profile" class="hidden">
-                <p>Welcome back, <span id="user-email-display"></span>!</p>
-                <button id="signout-btn" class="btn btn-danger">Sign Out</button>
-            </div>
-
         </section>
-
     </main>
-
-    <!-- CRITICAL: Load Supabase CDN Library FIRST -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Load your custom script SECOND -->
     <script src="script.js" defer></script>
-</body>
-</html>
-<div class="assistant-image-container">
-    <img src="images/ai-assistant.jpg" alt="Aura Personal AI Assistant v4.2 Dashboard" class="assistant-preview-img">
-</div>
-</head>
-<body>
-    <div class="about-section">
-        <img src="your-photo.jpg" alt="Daryl Smith" class="profile-pic">
-        <h1 style="text-align: center;">About Me</h1>
-        <p>Hi! I'm <strong>Daryl Smith</strong>, a UI/UX and Frontend Development professional driven by human-centered design.</p>
-        <p>My core focus is currently on the evolution of technology in everyday life. My ultimate goal is to build <strong>custom, intelligent AI assistants</strong> that solve real-world problems and streamline complex tasks for users.</p>
-        <p>This scholarship platform is one step in that journey—applying structured data and intelligent search to help students achieve their educational dreams. I am passionate about crafting clean, functional, and intuitive digital experiences.</p>
-        <p>Let's build the future together.</p>
-    </div>
-</body>
-</html>
-<!-- projects.html -->
-<!DOCTYPE html>
-
-<body>
-    <h1 style="text-align: center;">My Projects</h1>
-    <div class="project-grid">
-        <div class="card">
-            <h3>Scholarship Finder</h3>
-            <p>A web-based tool integrated with Supabase to help students locate and manage scholarship opportunities efficiently.</p>
-        </div>
-        <div class="card">
-            <h3>PC Build Assistant</h3>
-            <p>An intelligent tool designed to simplify the process of configuring custom PC builds for enthusiasts.</p>
-        </div>
-    </div>
 </body>
 </html>
 <!DOCTYPE html>
@@ -97,25 +33,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to PC Assistant</title>
-    <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; }
-        .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-        .media-item { max-width: 500px; width: 100%; }
-        video, img { width: 100%; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Welcome to PC Assistant</h1>
-    <div class="container">
-        <div class="media-item">
-            <video controls>
+    <header>
+        <h1>Welcome to PC Assistant</h1>
+        <nav>
+            <a href="login.html" class="btn">Get Started / Log In</a>
+        </nav>
+    </header>
+
+    <main class="container" style="text-align: center; padding: 50px;">
+        <div class="media-container">
+            <video width="100%" max-width="600" controls>
                 <source src="your-video-file.mp4" type="video/mp4">
-                Your browser does not support the video tag.
             </video>
+            <img src="images/ai-assistant.jpg" alt="PC Assistant" style="width:100%; max-width:600px; margin-top: 20px;">
         </div>
-        <div class="media-item">
-            <img src="pc-assistant-screenshot.jpg" alt="PC Assistant Preview">
-        </div>
-    </div>
+        <section class="about-section" style="margin-top: 40px;">
+            <h2>How we help</h2>
+            <p>We simplify complex PC builds using intelligent data...</p>
+        </section>
+    </main>
 </body>
 </html>
