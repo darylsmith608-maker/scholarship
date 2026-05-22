@@ -101,3 +101,19 @@ function handleLogin() {
         alert("Invalid login credentials.");
     }
 }
+const loginForm = document.getElementById('login-form');
+
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Use your existing Supabase auth logic here
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+    });
+    
+    if (error) alert(error.message);
+    else window.location.href = 'dashboard.html'; // Redirect after login
+});
